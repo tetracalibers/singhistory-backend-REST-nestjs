@@ -1,26 +1,41 @@
+import { SingHistory } from './entities/sing-history.entity';
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { CreateSingHistoryDto } from './dto/create-sing-history.dto';
 import { UpdateSingHistoryDto } from './dto/update-sing-history.dto';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class SingHistoryService {
-  create(createSingHistoryDto: CreateSingHistoryDto) {
-    return 'This action adds a new singHistory';
+  constructor(
+    @InjectRepository(SingHistory)
+    private singHistoryRepository: Repository<SingHistory>,
+  ) {}
+
+  async create(createSingHistoryDto: CreateSingHistoryDto) {
+    const history = this.singHistoryRepository.create(createSingHistoryDto);
+    await this.singHistoryRepository.save(history);
+    return history;
   }
 
   findAll() {
-    return `This action returns all singHistory`;
+    return this.singHistoryRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} singHistory`;
+    return this.singHistoryRepository.findOne({ where: { id } });
   }
 
-  update(id: number, updateSingHistoryDto: UpdateSingHistoryDto) {
-    return `This action updates a #${id} singHistory`;
+  async update(id: number, updateSingHistoryDto: UpdateSingHistoryDto) {
+    const result = await this.singHistoryRepository.update(
+      id,
+      updateSingHistoryDto,
+    );
+    return result;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} singHistory`;
+  async remove(id: number) {
+    const result = await this.singHistoryRepository.delete(id);
+    return result.affected > 0;
   }
 }
