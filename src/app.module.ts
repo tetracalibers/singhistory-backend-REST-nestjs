@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { SingHistoryModule } from './sing-history/sing-history.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AppService } from './app.service';
       entities: [],
       synchronize: true,
     }),
+    SingHistoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
