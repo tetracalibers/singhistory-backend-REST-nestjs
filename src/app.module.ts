@@ -7,16 +7,21 @@ import { SingHistory } from './sing-history/entities/sing-history.entity';
 import { SingHistoryModule } from './sing-history/sing-history.module';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['.env'],
+    }),
     TypeOrmModule.forRootAsync({
-      imports: [
-        ConfigModule.forRoot({
-          envFilePath: ['.env'],
-        }),
-      ],
-      inject: [ConfigService],
+      // imports: [
+      //   ConfigModule.forRoot({
+      //     envFilePath: ['.env'],
+      //   }),
+      // ],
+      // inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         type: 'postgres',
         host: config.get('POSTGRES_HOST'),
@@ -30,6 +35,7 @@ import { User } from './users/entities/user.entity';
     }),
     SingHistoryModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

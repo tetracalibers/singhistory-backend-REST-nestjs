@@ -5,5 +5,7 @@ import { UsersController } from './users.controller';
 @Module({
   controllers: [UsersController],
   providers: [UsersService],
+  // UsersServiceを他のクラスでも使えるようにする
+  exports: [UsersService],
 })
 export class UsersModule {}
