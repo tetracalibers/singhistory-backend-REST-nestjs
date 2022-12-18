@@ -6,12 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { SingHistoryService } from './sing-history.service';
 import { CreateSingHistoryDto } from './dto/create-sing-history.dto';
 import { UpdateSingHistoryDto } from './dto/update-sing-history.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('sing-history')
+@UseGuards(AuthGuard('jwt')) // passport-jwt戦略を付与する
 export class SingHistoryController {
   constructor(private readonly singHistoryService: SingHistoryService) {}
 
