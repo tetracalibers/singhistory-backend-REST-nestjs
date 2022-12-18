@@ -12,9 +12,9 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
 
-  // create(createUserDto: CreateUserDto) {
-  //   return 'This action adds a new user';
-  // }
+  create(createUserDto: CreateUserDto) {
+    return this.userRepository.create(createUserDto);
+  }
 
   // findAll() {
   //   return `This action returns all users`;

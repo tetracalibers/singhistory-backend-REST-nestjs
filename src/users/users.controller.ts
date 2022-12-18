@@ -10,15 +10,19 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import bcrypt from 'bcrypt';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // @Post()
-  // create(@Body() createUserDto: CreateUserDto) {
-  //   return this.usersService.create(createUserDto);
-  // }
+  @Post()
+  async create(@Body() createUserDto: CreateUserDto) {
+    const saltOrRounds = 10;
+    const { password, ...more } = createUserDto;
+    const hashedPassword = await bcrypt.hash(password, saltOrRounds);
+    return this.usersService.create({ password: hashedPassword, ...more });
+  }
 
   // @Get()
   // findAll() {
