@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateSingHistoryDto } from './dto/create-sing-history.dto';
 import { UpdateSingHistoryDto } from './dto/update-sing-history.dto';
 import { Repository } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class SingHistoryService {
@@ -12,30 +13,37 @@ export class SingHistoryService {
     private singHistoryRepository: Repository<SingHistory>,
   ) {}
 
-  async create(createSingHistoryDto: CreateSingHistoryDto) {
-    const history = this.singHistoryRepository.create(createSingHistoryDto);
+  async create(userId: User['id'], createSingHistoryDto: CreateSingHistoryDto) {
+    const history = this.singHistoryRepository.create({
+      userId,
+      ...createSingHistoryDto,
+    });
     await this.singHistoryRepository.save(history);
     return history;
   }
 
-  findAll() {
-    return this.singHistoryRepository.find();
+  findAll(userId: User['id']) {
+    return this.singHistoryRepository.find({ where: { userId } });
   }
 
-  findOne(id: number) {
-    return this.singHistoryRepository.findOne({ where: { id } });
-  }
+  // findOne(id: number) {
+  //   return this.singHistoryRepository.findOne({ where: { id } });
+  // }
 
-  async update(id: number, updateSingHistoryDto: UpdateSingHistoryDto) {
+  async update(
+    id: number,
+    userId: User['id'],
+    updateSingHistoryDto: UpdateSingHistoryDto,
+  ) {
     const result = await this.singHistoryRepository.update(
-      id,
+      { id, userId },
       updateSingHistoryDto,
     );
-    return result;
+    return result.affected > 0;
   }
 
-  async remove(id: number) {
-    const result = await this.singHistoryRepository.delete(id);
+  async remove(id: number, userId: User['id']) {
+    const result = await this.singHistoryRepository.delete({ id, userId });
     return result.affected > 0;
   }
 }

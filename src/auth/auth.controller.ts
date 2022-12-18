@@ -1,9 +1,7 @@
 import { Controller, Post, UseGuards, Request } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { User } from 'src/users/entities/user.entity';
+import { PasswordOmitUser } from 'src/users/types/user.type';
 import { AuthService } from './auth.service';
-
-type PasswordOmitUser = Omit<User, 'password'>;
 
 @Controller('auth')
 export class AuthController {
