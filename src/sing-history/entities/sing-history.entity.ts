@@ -24,7 +24,7 @@ export class SingHistory {
   jacketUrl?: string;
 
   @Column()
-  singDate: string;
+  singDate: Date;
 
   @Column({ type: 'int', default: 0 })
   singKey: number;
@@ -32,7 +32,7 @@ export class SingHistory {
   @Column({ type: 'int', default: 0, unsigned: true })
   rating: number;
 
-  @Column({ type: 'int', unsigned: true, nullable: true })
+  @Column({ type: 'float', unsigned: true, nullable: true })
   score?: number;
 
   @Column({ nullable: true })
