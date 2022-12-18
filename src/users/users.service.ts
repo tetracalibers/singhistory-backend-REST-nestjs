@@ -12,7 +12,10 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
+    const { name } = createUserDto;
+    const sameNameUsers = await this.userRepository.find({ where: { name } });
+    if (sameNameUsers.length > 0) return false;
     return this.userRepository.create(createUserDto);
   }
 
