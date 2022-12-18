@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SingHistory } from './sing-history/entities/sing-history.entity';
 import { SingHistoryModule } from './sing-history/sing-history.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { SingHistoryModule } from './sing-history/sing-history.module';
       }),
     }),
     SingHistoryModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
