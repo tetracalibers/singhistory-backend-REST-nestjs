@@ -15,8 +15,11 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     const { name } = createUserDto;
     const sameNameUsers = await this.userRepository.find({ where: { name } });
-    if (sameNameUsers.length > 0) return false;
-    return this.userRepository.create(createUserDto);
+    if (sameNameUsers.length > 0) {
+      return { statusCode: 409, message: `User ${name} already exists` };
+    }
+    const newUser = this.userRepository.create(createUserDto);
+    return { name: newUser.name, type: 'success' };
   }
 
   // findAll() {
