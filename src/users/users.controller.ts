@@ -16,7 +16,7 @@ import * as bcrypt from 'bcrypt';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  @Post('/create')
   async create(@Body() createUserDto: CreateUserDto) {
     const saltOrRounds = 10;
     const { password, ...more } = createUserDto;
