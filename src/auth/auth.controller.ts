@@ -13,7 +13,9 @@ export class AuthController {
     // LocalStrategy.validate()で認証して返した値がreq.userに入ってる
     const user = req.user;
 
+    const { access_token } = await this.authService.login(user);
+
     // JwtToken を返す
-    return this.authService.login(user);
+    return { statusCode: 201, data: { token: access_token } };
   }
 }
