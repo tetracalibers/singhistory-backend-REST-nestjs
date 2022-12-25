@@ -2,6 +2,7 @@
 .env
 .docker
 docker
+private
 
 # compiled output
 /dist
