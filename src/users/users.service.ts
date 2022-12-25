@@ -19,12 +19,17 @@ export class UsersService {
       return { statusCode: 409, message: `User ${name} already exists` };
     }
     const newUser = this.userRepository.create(createUserDto);
-    return { name: newUser.name, type: 'success' };
+    await this.userRepository.insert(newUser);
+    return {
+      statusCode: 201,
+      message: 'User created successfully',
+      data: { name: newUser.name, id: newUser.id },
+    };
   }
 
-  // findAll() {
-  //   return `This action returns all users`;
-  // }
+  findAll() {
+    return this.userRepository.find();
+  }
 
   findOne(id: number) {
     return this.userRepository.findOne({ where: { id } });

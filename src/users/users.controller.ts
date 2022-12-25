@@ -21,15 +21,11 @@ export class UsersController {
     const saltOrRounds = 10;
     const { password, ...more } = createUserDto;
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
-    const newUser = await this.usersService.create({
+    const result = await this.usersService.create({
       password: hashedPassword,
       ...more,
     });
-    return {
-      statusCode: newUser.statusCode ?? 201,
-      message: newUser.message ?? 'User created successfully',
-      data: { name: newUser.name },
-    };
+    return result;
   }
 
   // @Get()
